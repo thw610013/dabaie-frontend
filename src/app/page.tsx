@@ -1,7 +1,14 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Button } from "antd";
+import { listQuestionBankVoByPageUsingPost } from "@/api/questionBankController";
 
 export default function Home() {
+
+  listQuestionBankVoByPageUsingPost({}).then(res => {
+    console.log(res)
+  })
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -9,6 +16,7 @@ export default function Home() {
           Get started by editing&nbsp;
           <code className={styles.code}>src/app/page.tsx</code>
         </p>
+        <Button type="primary">button</Button>
         <div>
           <a
             href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
