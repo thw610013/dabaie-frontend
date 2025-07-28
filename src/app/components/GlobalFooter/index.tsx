@@ -8,7 +8,7 @@ export default function GlobalFttoer() {
         className="global-footer" >
 
         <div>
-            ©️ {currentYear} 大白鹅博客 </div>
+            ©️ {currentYear} 大白鹅知识库 </div>
         <div>by Ant Design</div>
 
     </div>)

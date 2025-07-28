@@ -8,6 +8,19 @@ import { usePathname } from "next/navigation";
 import './index.css'
 import { menus } from "../../../../confg/menu";
 import { listQuestionBankVoByPageUsingPost } from "@/api/questionBankController";
+import { useSelector } from "react-redux";
+import { RootState } from "@/stores";
+import Image from "next/image";
+import { Dropdown } from "antd";
+import { LogoutOutlined } from "@ant-design/icons";
+import getAccessibelMenus from "@/access/menuAccess";
+import { useRouter } from "next/navigation";
+import { userLogoutUsingPost } from "@/api/userController";
+import { DEFAULT_USER } from "@/constants/user";
+import { message } from "antd";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/stores";
+import { setLoginUser } from "@/stores/loginUser";
 
 interface Props {
   children: React.ReactNode;
@@ -15,6 +28,21 @@ interface Props {
 
 export default function BasicLayout({ children }: Props) {
   const pathname: string = usePathname();
+  const router = useRouter();
+  const loginUser = useSelector((state: RootState) => state.loginUser);
+  const dispatch = useDispatch<AppDispatch>();
+  const userLogout = async () => {
+    try {
+      await userLogoutUsingPost();
+      message.success("退出登录！");
+      // 保存用户登录态
+      dispatch(setLoginUser(DEFAULT_USER));
+      //push 是新加入了一个页面 ， replace 是 在原来页面
+      router.push("/user/login");
+    } catch (e: any) {
+      message.error('登录失败，' + e.message);
+    }
+  }
 
   listQuestionBankVoByPageUsingPost({}).then(res => {
     console.log(res)
@@ -28,27 +56,28 @@ export default function BasicLayout({ children }: Props) {
         overflow: "auto",
       }}
     >
-      <ProLayout
-        title="大白鹅博客"
-        layout="top"
-        // logo={
-        //   <Image
-        //     src="/src/assets/dabaie_logo.png"
-        //     width={32}
-        //     height={32}
-        //     alt="大白鹅博客"
-        //   />
-        // }
+      {/* 状态栏 */}
+      <ProLayout title="大白鹅知识库" layout="top"
+        logo={<Image src="/assets/dabaie.png" width={32} height={32} alt="大白鹅知识库" />}
         siderWidth={256}
-        location={{
-          pathname,
-        }}
-        menu={{
-          type: "group",
-        }}
+        location={{ pathname }}
+        menu={{ type: "group" }}
         avatarProps={{
-          src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
-          title: "admin",
+          src: "/assets/psyduck.png",
+          size: "small",
+          title: loginUser.userName || "大白鹅",
+          render: (props, dom) => {
+            return loginUser.id ? (
+              <Dropdown menu={{
+                items: [{ key: "logout", label: "退出登录", icon: <LogoutOutlined /> }],
+                onClick: async (event: { key: React.Key }) => {
+                  if (event.key === "logout") { userLogout(); }
+                }
+              }} >
+                {dom}
+              </Dropdown>
+            ) : (<div onClick={() => { router.push("/user/login"); }} style={{ cursor: "pointer" }}> {dom}</div>);
+          }
         }}
         actionsRender={(props) => {
           if (props.isMobile) {
@@ -65,7 +94,7 @@ export default function BasicLayout({ children }: Props) {
           return <GlobalFttoer />
         }}
         menuDataRender={() => {
-          return menus;
+          return getAccessibelMenus(loginUser, menus);
         }}
         menuItemRender={(item, dom) => (
           <Link href={item.path || "/"} target={item.target}>
