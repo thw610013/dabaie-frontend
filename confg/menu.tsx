@@ -4,15 +4,13 @@ import Access_Enum from "@/access/accessEnum";
 
 export const menus: MenuDataItem[] = [
     { path: "/", name: "首页" },
-    { path: "/banks", name: "题库" },
-
     {
         path: "/questions",
-        name: "题目",
+        name: "题目大全",
     },
     {
-        path: "/welcome",
-        name: "欢迎",
+        path: "/banks",
+        name: "题库大全",
     },
     {
         path: "/admin",
@@ -24,6 +22,14 @@ export const menus: MenuDataItem[] = [
             {
                 path: "/admin/user",
                 name: "用户管理",
+                access: Access_Enum.ADMIN,
+            }, {
+                path: "/admin/bank",
+                name: "题库管理",
+                access: Access_Enum.ADMIN,
+            }, {
+                path: "/admin/question",
+                name: "题目管理",
                 access: Access_Enum.ADMIN,
             },
         ],

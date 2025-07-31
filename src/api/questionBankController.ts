@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import request from "../../src/app/libs/request";
+import request from "../app/libs/request";
 
 /** addQuestionBank POST /api/questionBank/add */
 export async function addQuestionBankUsingPost(

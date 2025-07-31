@@ -21,6 +21,7 @@ import { message } from "antd";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/stores";
 import { setLoginUser } from "@/stores/loginUser";
+import SearchInput from "./components/SearchInput/Index";
 
 interface Props {
   children: React.ReactNode;
@@ -84,6 +85,7 @@ export default function BasicLayout({ children }: Props) {
             return [];
           }
           return [
+            <SearchInput key="search" />,
             <a href="www.github.com" target="_blank" key={"GithubFilled"}>
               <GithubFilled key="GithubFilled" />,
             </a>,
