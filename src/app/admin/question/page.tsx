@@ -10,6 +10,7 @@ import React, { ReactNode, useRef, useState } from 'react';
 import TagList from '@/app/components/TagList';
 import { FormInstance } from 'antd/lib';
 import MdEditor from '@/app/components/MdEditor';
+import UpdateBankModal from './components/updateBankModal';
 
 /**
  * 题目管理页面
@@ -24,6 +25,8 @@ const QuestionAdminPage: React.FC = () => {
   const actionRef = useRef<ActionType>();
   // 当前题目点击的数据
   const [currentRow, setCurrentRow] = useState<API.Question>();
+  // 是否显示更新所属题库弹窗
+  const [updateBankModalVisible, setUpdateBankModalVisible] = useState<boolean>(false);
 
   /**
    * 删除节点
@@ -56,6 +59,12 @@ const QuestionAdminPage: React.FC = () => {
       title: "id",
       dataIndex: "id",
       valueType: "text",
+      hideInForm: true,
+    },
+    {
+      title: "所属题库",
+      dataIndex: "questionBankId",
+      hideInTable: true,
       hideInForm: true,
     },
     {
@@ -137,6 +146,14 @@ const QuestionAdminPage: React.FC = () => {
           >
             修改
           </Typography.Link>
+          <Typography.Link
+            onClick={() => {
+              setCurrentRow(record);
+              setUpdateBankModalVisible(true);
+            }}
+          >
+            修改所属题库
+          </Typography.Link>
           <Typography.Link type="danger" onClick={() => handleDelete(record)}>
             删除
           </Typography.Link>
@@ -154,6 +171,11 @@ const QuestionAdminPage: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
+        scroll={
+          {
+            x: true,
+          }
+        }
         toolBarRender={() => [
           <Button
             type="primary"
@@ -168,7 +190,7 @@ const QuestionAdminPage: React.FC = () => {
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
-
+          // @ts-ignore
           const { data, code } = await listQuestionByPageUsingPost({
             ...params,
             sortField,
@@ -178,7 +200,9 @@ const QuestionAdminPage: React.FC = () => {
 
           return {
             success: code === 0,
+            // @ts-ignore
             data: data?.records || [],
+            // @ts-ignore
             total: Number(data?.total) || 0,
           };
         }}
@@ -206,6 +230,13 @@ const QuestionAdminPage: React.FC = () => {
         }}
         onCancel={() => {
           setUpdateModalVisible(false);
+        }}
+      />
+      <UpdateBankModal
+        questionId={currentRow?.id}
+        visible={updateBankModalVisible}
+        onCancel={() => {
+          setUpdateBankModalVisible(false);
         }}
       />
     </PageContainer>

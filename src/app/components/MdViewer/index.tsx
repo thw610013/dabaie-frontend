@@ -4,6 +4,8 @@ import highlight from "@bytemd/plugin-highlight";
 import "bytemd/dist/index.css";
 import "highlight.js/styles/vs.css";
 import "./index.css";
+// 引入 github-markdown-css 样式 需要安装依赖 npm install github-markdown-css
+import 'github-markdown-css/github-markdown-light.css'
 
 interface Props {
     value?: string;

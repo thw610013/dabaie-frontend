@@ -88,7 +88,7 @@ const QuestionTable: React.FC<Props> = (props: Props) => {
           }
 
           const sortField = Object.keys(sort)?.[0] || 'createTime';
-          const sortOrder = sort?.[sortField] || 'desc';
+          const sortOrder = sort?.[sortField] || 'descend';
 
           const { data, code } = await listQuestionVoByPageUsingPost({
             ...params,

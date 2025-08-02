@@ -14,7 +14,7 @@ export default async function BanksPage() {
 
     let questionBankList: any[] = [];
     try {
-        const res = await listQuestionBankVoByPageUsingPost({ pageSize: 200, sortField: "createTime", sortOrder: "desc" })
+        const res = await listQuestionBankVoByPageUsingPost({ pageSize: 200, sortField: "createTime", sortOrder: "descend" })
         questionBankList = res.data?.records ?? [];
     } catch (e: any) {
         message.error("获取题库失败" + e.message)

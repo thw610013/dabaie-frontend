@@ -33,6 +33,13 @@ export default async function BankPage({ params }) {
     return <div>获取题库详情失败，请刷新重试</div>;
   }
 
+  let firstQuestionId: number | undefined;
+  // @ts-ignore
+  if (bank.questionPage?.records && bank.questionPage.records.length > 0) {
+    // @ts-ignore
+    firstQuestionId = bank.questionPage.records[0].id;
+  }
+
   return (
     <div id="bankPage" className="max-width-content">
       <Card>
@@ -46,13 +53,18 @@ export default async function BankPage({ params }) {
             </Title>
           }
           description={
-            // @ts-ignore
-            <Paragraph type="secondary">{bank.description}</Paragraph>
+            <div>
+              {/* @ts-ignore */}
+              <Paragraph type="secondary">{bank.description}</Paragraph>
+              <Button type="primary" shape="round" href={`/bank/${questionBankId}/question/${firstQuestionId}`} target="_blank" disabled={!firstQuestionId}>开始刷题</Button>
+            </div>
+
           }
         ></Meta>
       </Card>
       <div style={{ marginBottom: 16 }} />
-      <QuestionList questionList={bank.questionPage?.records} />
+      {/* @ts-ignore */}
+      <QuestionList questionBankId={questionBankId} questionList={bank.questionPage?.records ?? []} cardTitle={`题目列表(${bank.questionPage?.total || 0} )`} />
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default async function QuestionsPage({ searchParams }) {
   let questionList: any[] = [];
   let total: number = 0;
   try {
-    const res = await listQuestionVoByPageUsingPost({ title: searchText, pageSize: 12, sortField: "createTime", sortOrder: "desc" })
+    const res = await listQuestionVoByPageUsingPost({ title: searchText, pageSize: 12, sortField: "createTime", sortOrder: "descend" })
     questionList = res.data?.records ?? [];
     total = res.data?.total ?? 0;
   } catch (e: any) {
