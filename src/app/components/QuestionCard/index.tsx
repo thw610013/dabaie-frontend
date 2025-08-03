@@ -6,6 +6,7 @@ import Link from "next/link";
 import Title from "antd/es/typography/Title";
 import TagList from "../TagList";
 import MdViewer from "../MdViewer";
+import useAddUserSignInRecord from "@/hooks/useAddUserSignInRecords";
 // 标签列表组件
 
 // 题目卡片
@@ -15,6 +16,9 @@ interface Props {
 }
 const Questioncard = (props: Props) => {
     const { question = [] } = props;
+
+    // 进入到题目详情页面就签到 -- 钩子
+    useAddUserSignInRecord();
 
     return (<div
         className="question-card" >

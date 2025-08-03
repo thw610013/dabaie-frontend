@@ -19,6 +19,8 @@
     "@reduxjs/toolkit": "^2.8.2",
     "antd": "^5.26.6",
     "axios": "^1.10.0",
+    "echarts": "^6.0.0",
+    "echarts-for-react": "^3.0.2",
     "eslint-config-prettier": "^10.1.8",
     "github-markdown-css": "^5.8.1",
     "next": "14.2.6",

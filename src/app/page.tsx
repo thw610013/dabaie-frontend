@@ -18,6 +18,7 @@ export default async function HomePage() {
   let questionList: any[] = [];
   try {
     const res = await listQuestionBankVoByPageUsingPost({ pageSize: 12, sortField: "createTime", sortOrder: "descend" })
+    // @ts-ignore
     questionBankList = res.data?.records ?? [];
   } catch (e: any) {
     message.error("获取题库失败" + e.message)
@@ -25,8 +26,10 @@ export default async function HomePage() {
 
   try {
     const res = await listQuestionVoByPageUsingPost({ pageSize: 12, sortField: "createTime", sortOrder: "descend" })
+    // @ts-ignore
     questionList = res.data?.records ?? [];
   } catch (e: any) {
+
     message.error("获取题目失败" + e.message)
   }
 

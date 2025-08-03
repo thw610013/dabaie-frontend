@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/stores";
 import Image from "next/image";
 import { Dropdown } from "antd";
-import { LogoutOutlined } from "@ant-design/icons";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import getAccessibelMenus from "@/access/menuAccess";
 import { useRouter } from "next/navigation";
 import { userLogoutUsingPost } from "@/api/userController";
@@ -64,15 +64,16 @@ export default function BasicLayout({ children }: Props) {
         location={{ pathname }}
         menu={{ type: "group" }}
         avatarProps={{
-          src: "/assets/psyduck.png",
+          src: loginUser.userAvatar,
           size: "small",
           title: loginUser.userName || "大白鹅",
           render: (props, dom) => {
             return loginUser.id ? (
               <Dropdown menu={{
-                items: [{ key: "logout", label: "退出登录", icon: <LogoutOutlined /> }],
+                items: [{ key: "userCenter", label: "个人中心", icon: <UserOutlined /> }, { key: "logout", label: "退出登录", icon: <LogoutOutlined /> }],
+
                 onClick: async (event: { key: React.Key }) => {
-                  if (event.key === "logout") { userLogout(); }
+                  if (event.key === "logout") { userLogout(); } else if (event.key === "userCenter") { router.push("/user/center") }
                 }
               }} >
                 {dom}
