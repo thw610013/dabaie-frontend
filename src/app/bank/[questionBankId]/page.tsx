@@ -22,7 +22,6 @@ export default async function BankPage({ params }) {
       needQueryQuestionList: true,
       pageSize: 200,
     });
-    console.log('bankRes.data', bankRes.data);
     bank = bankRes.data;
   } catch (e) {
     // @ts-ignore

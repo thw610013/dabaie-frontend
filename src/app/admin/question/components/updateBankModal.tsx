@@ -2,7 +2,7 @@
 import { message, Modal, Select } from 'antd';
 import React, { useState } from 'react';
 import { Form } from 'antd';
-import { addQuestionBankQuestionUsingPost, deleteQuestionBankQuestionUsingPost } from '@/api/questionBankQuestionController';
+import { addQuestionBankQuestionUsingPost, deleteQuestionBankQuestionUsingPost, listQuestionBankQuestionByPageUsingPost } from '@/api/questionBankQuestionController';
 import { useEffect } from 'react';
 import { listQuestionBankVoByPageUsingPost } from '@/api/questionBankController';
 
@@ -22,22 +22,45 @@ const UpdateBankModal: React.FC<Props> = (props) => {
   const [form] = Form.useForm();
   const [questionBankList, setQuestionBankList] = useState<API.QuestionBankVO[]>([])
 
-  // 获取题库列表
-  const getQuestionBankList = async () => {
-    const pageSize = 200;
+  // 获取所属题库列表
+  const getCurrentQuestionBankIdList = async () => {
     try {
-      const res = await listQuestionBankVoByPageUsingPost({
-        pageSize,
-        sortField: "createTime",
-        sortOrder: "descend"
+      const res = await listQuestionBankQuestionByPageUsingPost({
+        questionId,
+        pageSize: 20,
       });
       // @ts-ignore
-      setQuestionBankList(res.data?.records ?? [])
+      const list = (res.data.records ?? []).map((item) => item.questionBankId);
+      form.setFieldValue("questionBankIdList" as any, list);
+    } catch (e) {
+      // @ts-ignore
+      console.error("获取题目所属题库列表失败，" + e.message);
+    }
+  };
+
+  useEffect(() => {
+    if (questionId) {
+      getCurrentQuestionBankIdList();
+    }
+    // @ts-ignore
+  }, [questionId]);
+  // 获取题库列表
+  const getQuestionBankList = async () => {
+    // 题库数量不多，直接全量获取
+    const pageSize = 200;
+    try {
+      const questionBankRes = await listQuestionBankVoByPageUsingPost({
+        pageSize,
+        sortField: "createTime",
+        sortOrder: "descend",
+      });
+      // @ts-ignore
+      setQuestionBankList(questionBankRes.data.records ?? []);
     } catch (e) {
       // @ts-ignore
       console.error("获取题库列表失败，" + e.message);
     }
-  }
+  };
 
   useEffect(() => {
     getQuestionBankList();

@@ -26,6 +26,7 @@ export default async function HomePage() {
 
   try {
     const res = await listQuestionVoByPageUsingPost({ pageSize: 12, sortField: "createTime", sortOrder: "descend" })
+    console.log('res', res.data)
     // @ts-ignore
     questionList = res.data?.records ?? [];
   } catch (e: any) {

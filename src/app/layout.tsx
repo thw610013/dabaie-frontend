@@ -48,15 +48,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const doInit = (): void => {
-    console.log("doInit")
-  }
-
-  //只执行一次
-  useEffect(() => {
-    doInit();
-  }, [])
-
   return (
     <html lang="zh">
       <body>

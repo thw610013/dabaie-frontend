@@ -1,9 +1,9 @@
 "use server";
 import Title from "antd/es/typography/Title";
-import { Divider, Flex, message } from "antd";
+import { Divider, message } from "antd";
 import "./index.css";
 
-import { listQuestionVoByPageUsingPost } from "@/api/questionController";
+import { listQuestionVoByPageUsingPost, searchQuestionVoByPageUsingPost } from "@/api/questionController";
 import QuestionTable from "../components/QuestionTable";
 import { title } from "process";
 
@@ -18,7 +18,7 @@ export default async function QuestionsPage({ searchParams }) {
   let questionList: any[] = [];
   let total: number = 0;
   try {
-    const res = await listQuestionVoByPageUsingPost({ title: searchText, pageSize: 12, sortField: "createTime", sortOrder: "descend" })
+    const res = await searchQuestionVoByPageUsingPost({ searchText, pageSize: 12, sortField: "createTime", sortOrder: "descend" })
     questionList = res.data?.records ?? [];
     total = res.data?.total ?? 0;
   } catch (e: any) {

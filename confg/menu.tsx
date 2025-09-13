@@ -24,7 +24,7 @@ export const menus: MenuDataItem[] = [
                 name: "用户管理",
                 access: Access_Enum.ADMIN,
             }, {
-                path: "/admin/bank",
+                path: "/admin/banks",
                 name: "题库管理",
                 access: Access_Enum.ADMIN,
             }, {

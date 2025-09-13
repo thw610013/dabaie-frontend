@@ -45,10 +45,6 @@ export default function BasicLayout({ children }: Props) {
     }
   }
 
-  listQuestionBankVoByPageUsingPost({}).then(res => {
-    console.log(res)
-  })
-
   return (
     <div
       id="basicLayout"
@@ -87,7 +83,7 @@ export default function BasicLayout({ children }: Props) {
           }
           return [
             <SearchInput key="search" />,
-            <a href="www.github.com" target="_blank" key={"GithubFilled"}>
+            <a href="https://github.com/" target="_blank" key={"GithubFilled"}>
               <GithubFilled key="GithubFilled" />,
             </a>,
           ];
